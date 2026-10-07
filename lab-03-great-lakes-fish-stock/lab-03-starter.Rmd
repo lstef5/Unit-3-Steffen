@@ -1,7 +1,7 @@
 ---
 title: "Lab 03 - Great Lakes fish stocking"
-author: "Insert your name here"
-date: "Insert date here"
+author: "Liam Steffen"
+date: "09/30/2026"
 output:
   html_document:
     toc: true
@@ -17,9 +17,9 @@ By completing and submitting this lab, I certify that:
 - I may use course materials, lecture notes, R documentation/help files, and other resources explicitly approved by the instructors.
 - I understand that I am responsible for being able to explain all code and written work that I submit.
 
-**Name:** ______________________________  
-**Signature:** ___________________________  
-**Date:** _______________________________
+**Name:** Liam Steffen  
+**Signature:** Liam Steffen  
+**Date:** 09/30/2026
 
 # Before you begin
 
@@ -50,43 +50,53 @@ fish_stock <- read_csv("../data/great-lakes-fish-stock.csv")
 
 **Goal:** Report how many rows and columns `fish_stock` has, using inline R, and say what one row represents.
 
-> Replace this text with your answer. Use inline R such as `` `r nrow(fish_stock)` `` and `` `r ncol(fish_stock)` ``.
+```{r fish_stock}
+glimpse(fish_stock)
+```
+```{r fish_stock}
+ncol(fish_stock)
+nrow(fish_stock)
+```
+> There are 56,232 observations, and 8 variables. The variables represent year, month, lake, state/province, species, number stocked, age of fish in months, and the weight of the fish.
 
 ## Exercise 2 — Filter to salmon stocking events
 
 **Goal:** Keep Atlantic, Chinook, and Coho salmon events with a reported weight, excluding Lake Ontario.
 
-```{r filter-salmon, eval = F}
+```{r filter-salmon, eval = TRUE}
 salmon_stock <- fish_stock %>%
   filter(
-    SPECIES %in% c("___", "___", "___"),
-    !is.na(___),
-    ___ != "ON"
+    SPECIES %in% c("ATS", "CHS", "COS"),
+    !is.na(WEIGHT),
+    LAKE != "ON"
   )
 ```
 
 ```{r inspect-salmon}
-# Number of rows, number of variables, and variable types for salmon_stock
+ncol(salmon_stock)
+nrow(salmon_stock)
+variable.names(salmon_stock)
+glimpse(salmon_stock)
 ```
 
 **Interpretation (2–3 complete sentences):** How many rows and variables does `salmon_stock` have, and which variables are numeric versus character?
 
-> Replace this text with your answer.
+> There are 5,131 rows and 8 variables. Year, month, No_stocked, AgeMonth, and weight have numeric values, while lake, state_prov, & species are character variables.
 
 ## Exercise 3 — Average fish weight in grams
 
 **Goal:** Add a column for mean individual weight in grams (`WEIGHT` is in kg).
 
 ```{r mutate-avg-weight, eval = F}
-salmon_stock <- ___ %>%
-  ___(
-    ___ = WEIGHT / NO_STOCKED * ___
+salmon_stock <- fish_stock %>%
+  mutate(
+    AVG_WEIGHT = WEIGHT / NO_STOCKED * 1000
   )
 ```
 
 **Interpretation (1 complete sentence):** What is `mutate()` creating here, and which columns does it use?
 
-> Replace this text with your answer.
+> Mutate is creating a new variable that shows the average weight of the fish stocked in grams. It uses collumns weight and no_stocked.
 
 ## Exercise 4 — Lake summaries since 2000
 
