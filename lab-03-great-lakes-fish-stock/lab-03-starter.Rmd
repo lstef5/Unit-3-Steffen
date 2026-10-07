@@ -115,19 +115,30 @@ salmon_stock %>%
 
 **Interpretation (1–2 complete sentences):** Which lake has the largest mean number of fish per event, and which has the largest mean weight per event?
 
-> Lake Superior has the highest largest number of fish stocked per event, while Lake Erie has the larges mean weight per event.
+> Lake Superior has the highest largest number of fish stocked per event, while Lake SC has the larges mean weight per event.
 
 ## Exercise 5 — Trout pipeline
 
 **Goal:** One pipeline from `fish_stock` for `BKT`, `BNT`, `LAT`, `RBT`, and `TRT` (no year filter).
 
-```{r summarize-trout-lakes}
-# Your pipeline here
+```{r summarize-trout-lakes, eval = F}
+trout_stock <- fish_stock %>%
+  mutate(
+    AVG_WEIGHT = WEIGHT / NO_STOCKED * 1000
+  )
+trout_stock %>% 
+group_by(LAKE) %>% 
+  filter(SPECIES %in% c('BKT', 'BNT', 'LAT', 'RBT', 'TRT'), LAKE %in% c('MI', 'SU', 'SC', 'ER', 'HU' )) %>% 
+  summarize(
+    MEAN_NO_STOCKED = mean(NO_STOCKED, na.rm = TRUE),
+  MEAN_WEIGHT = mean(WEIGHT, na.rm = TRUE)
+  ) %>% 
+  arrange(desc(MEAN_NO_STOCKED))
 ```
 
 **Interpretation (1 complete sentence):** Which lake has the largest mean number of trout per stocking event?
 
-> Replace this text with your answer.
+> Lake Superior has teh largest mean number of trout per stocking event.
 
 ## Exercise 6 — Annual CHS and BKT stocking by lake
 
