@@ -6,7 +6,6 @@ output:
   html_document:
     toc: true
     toc_depth: 2
----
 
 # Academic integrity and honor code
 
@@ -145,19 +144,29 @@ group_by(LAKE) %>%
 **Goal:** Faceted line plot of annual total `NO_STOCKED` for Chinook Salmon and Brook Trout.
 
 ```{r plot-chs-bkt, fig.width=8, fig.height=6}
-# Your pipeline here
+
+fish_stock %>%
+  group_by(YEAR, SPECIES, LAKE) %>%
+  filter(SPECIES %in% c("CHS","BKT")) %>%
+  summarize(SUM_NO_STOCKED =sum(NO_STOCKED, na.rm = TRUE)) %>%
+ggplot(mapping = aes(x=YEAR, y=SUM_NO_STOCKED, color=SPECIES)) +
+  geom_line() +
+  facet_wrap(~LAKE) +
+  theme_bw() +
+  labs(title = "Annual stocking of Chinook Salmon and Brook Trout")
+
 ```
 
 **Interpretation (2–3 complete sentences):** Which species was stocked at a higher rate? In which lake was stocking largest? Roughly when did stocking peak in that lake?
 
-> Replace this text with your answer.
+> The chinook salmon are stocked at higher rates. Lake Michigan is stocked at the highest rate, and its stocking peaked around 1990.
 
 # Submission checklist
 
-- [ ] I signed the academic-integrity statement.
-- [ ] My name and date are correct in the YAML.
-- [ ] I answered every requested question in complete sentences.
-- [ ] Exercise 1 uses inline R code.
-- [ ] All required code is in this file.
+- [x] I signed the academic-integrity statement.
+- [x] My name and date are correct in the YAML.
+- [x] I answered every requested question in complete sentences.
+- [x] Exercise 1 uses inline R code.
+- [x] All required code is in this file.
 - [ ] This document Knits without errors.
-- [ ] I committed and pushed my final changes to GitHub.
+- [x] I committed and pushed my final changes to GitHub.
